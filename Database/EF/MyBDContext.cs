@@ -39,7 +39,7 @@ namespace Database.EF
             modelBuilder.Entity<Table>(entity =>
             {
                 entity.ToTable("Table");
-                entity.HasKey(r => r.RestaurantID);
+                entity.HasKey(r => r.TableID);
                 entity.HasMany(t => t.Orders)
                 .WithOne(o => o.Table)
                 .HasForeignKey(o => o.TableID);

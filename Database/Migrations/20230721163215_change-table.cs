@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Database.Migrations
 {
     /// <inheritdoc />
-    public partial class initdb : Migration
+    public partial class changetable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,13 +58,14 @@ namespace Database.Migrations
                 name: "Table",
                 columns: table => new
                 {
-                    RestaurantID = table.Column<int>(type: "int", nullable: false),
-                    TableID = table.Column<int>(type: "int", nullable: false),
-                    TableName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TableID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TableName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RestaurantID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Table", x => x.RestaurantID);
+                    table.PrimaryKey("PK_Table", x => x.TableID);
                     table.ForeignKey(
                         name: "FK_Table_Restaurant_RestaurantID",
                         column: x => x.RestaurantID,
@@ -97,7 +98,7 @@ namespace Database.Migrations
                         name: "FK_Order_Table_TableID",
                         column: x => x.TableID,
                         principalTable: "Table",
-                        principalColumn: "RestaurantID",
+                        principalColumn: "TableID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -140,6 +141,11 @@ namespace Database.Migrations
                 name: "IX_OrderDetail_OrderID",
                 table: "OrderDetail",
                 column: "OrderID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Table_RestaurantID",
+                table: "Table",
+                column: "RestaurantID");
         }
 
         /// <inheritdoc />

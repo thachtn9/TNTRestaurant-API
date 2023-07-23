@@ -138,17 +138,22 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Entities.Table", b =>
                 {
-                    b.Property<int>("RestaurantID")
+                    b.Property<int>("TableID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("TableID")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TableID"));
+
+                    b.Property<int>("RestaurantID")
                         .HasColumnType("int");
 
                     b.Property<string>("TableName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RestaurantID");
+                    b.HasKey("TableID");
+
+                    b.HasIndex("RestaurantID");
 
                     b.ToTable("Table", (string)null);
                 });
